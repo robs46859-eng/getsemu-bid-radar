@@ -1,10 +1,10 @@
 import { createHash, randomUUID } from 'node:crypto';
 import { link, mkdir, readFile, unlink, writeFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
+import { homedir } from 'node:os';
 import { join } from 'node:path';
 
-const storage = process.env.SIGNUP_DIR;
-if (!storage) throw new Error('Set SIGNUP_DIR to a private, persistent directory.');
+const storage = process.env.SIGNUP_DIR || join(homedir(), '.getsemu-bid-radar-signups');
 await mkdir(storage, { recursive: true, mode: 0o700 });
 const page = await readFile(new URL('./index.html', import.meta.url));
 const scopes = new Set(['both', 'restoration', 'design']);
